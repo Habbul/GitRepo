@@ -50,7 +50,7 @@ def set_gen_square(log, dev, source=1, dutycycle=50, period=1, period_unit="s", 
     log.debug("DONE!!!")
 
 
-def set_osc_ch(log, dev, channel=1, vpd=1, zero_level=0):
+def set_osc_ch(log, dev, channel=1, vpd=0.75, zero_level=0):
     log.debug("SETTING OSCILLOSCOPE CHANNEL {}".format(channel))
     delay = 0.1
     log.debug("SET OSC CH{} VOLTS PER DIV - {}".format(channel, dev.write(
@@ -62,8 +62,7 @@ def set_osc_ch(log, dev, channel=1, vpd=1, zero_level=0):
 
 
 def set_osc_hor(log, dev, t=10 ** -3):
-    log.debug("SET HORIZONTAL SCALE - {}".format(ch, dev.write(
-        'HOR:MAIN:SCALE {:.9f}'.format(t))))  # Sec per div # 250 points in horizontal div
+    dev.write('HOR:MAIN:SCALE {:.9f}'.format(t))  # Sec per div # 250 points in horizontal div
     time.sleep(0.15)
 
 
@@ -176,14 +175,19 @@ def capture_data(l, dev, w_time, snap_period, f_name):
 
 
 #################################################################
+vpd = 0.75
+rez_coef = 25 // vpd  # 50
 
 rm = visa.ResourceManager()
 rm.list_resources("?*")
-gen = rm.open_resource("USB0::0x4348::0x5537::NI-VISA-30001::RAW")
+gen = rm.open_resource("USB0::0x4348::0x5537::NI-VISA-40001::RAW")
 gen.timeout = 5000
 osc = rm.open_resource("USB0::0x0699::0x03A6::C041256::INSTR")
 print(osc)
 osc.timeout = 5000
+set_osc_ch(l, osc, 1, 0.75, 0)
+# set_osc_hor(l, osc, t=10 ** -3)
+osc.encoding = "utf-8"
 osc.query("*IDN?")
 osc.write("DATa:ENCdg RIBinary")
 osc.write("DATa:WIDth 2")
@@ -215,7 +219,7 @@ time.sleep(50)
 while low_voltage+i <= high_voltage:
     uncoupling(l, gen, 5*60)
     gen_duty_cycle(l, gen, source=1, dutycycle=20, delay=0)
-    set_gen_form(l, gen, func="SQU", freq=0.15, amp=(low_voltage + i), offset=(low_voltage+i)/2-0.1)
+    set_gen_form(l, gen, func="SQU", freq=0.2, amp=(low_voltage + i), offset=(low_voltage+i)/2-0.1)
     print("GENERATING {}V".format(low_voltage + i))
     # start_gen(l, gen, source=1)
     capture_data(l, osc, w_time=5*60, snap_period=0.5, f_name="VOLTAGE_{}-{}.txt".format(low_voltage,
