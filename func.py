@@ -218,7 +218,7 @@ time.sleep(50)
 
 while low_voltage+i <= high_voltage:
     uncoupling(l, gen, 5*60)
-    gen_duty_cycle(l, gen, source=1, dutycycle=40, delay=0)
+    gen_duty_cycle(l, gen, source=1, dutycycle=60, delay=0)
     set_gen_form(l, gen, func="SQU", freq=0.1, amp=(low_voltage + i)-0.15, offset=(low_voltage+i-0.15)/2+0.05)
     print("GENERATING {}V".format(low_voltage + i))
     # start_gen(l, gen, source=1)
