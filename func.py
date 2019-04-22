@@ -228,9 +228,9 @@ while low_voltage+i <= high_voltage:
 
 set_gen_form(l, gen, func="NOIS", freq=1, amp=0, offset=0.02)
 start_gen(l, gen, source=1)
-print("EXPERIMENT DONE. Plug off the memristor and switch off the supply. Waiting 50sec...")
+print("EXPERIMENT DONE. Plug off the memristor and switch off the supply.")
 time.sleep(50)
 
-stop_gen(l, gen, source=1)
+# stop_gen(l, gen, source=1)
 
 input('done')
