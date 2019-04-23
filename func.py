@@ -219,7 +219,7 @@ time.sleep(50)
 while low_voltage+i <= high_voltage:
     uncoupling(l, gen, 5*60)
     gen_duty_cycle(l, gen, source=1, dutycycle=80, delay=0)
-    set_gen_form(l, gen, func="REXP", freq=0.15, amp=(low_voltage + i)-0.15, offset=(low_voltage+i-0.15)/2+0.05)
+    set_gen_form(l, gen, func="REXP", freq=0.2, amp=(low_voltage + i)-0.15, offset=(low_voltage+i-0.15)/2+0.05)
     print("GENERATING {}V".format(low_voltage + i))
     # start_gen(l, gen, source=1)
     capture_data(l, osc, w_time=5*60, snap_period=0.5, f_name="VOLTAGE_0.15-{}V.txt".format(
