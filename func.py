@@ -109,8 +109,8 @@ def printer(s):
     print(s)
 
 def uncoupling(l, dev, imp_time):
-    gen_low_voltage(l, gen, source=1, vlow=-0.2905, vlow_unit="v", delay=0)
-    gen_high_voltage(l, gen, source=1, vhigh=-0.29, vhigh_unit="v", delay=0)
+    gen_low_voltage(l, gen, source=1, vlow=-0.2205, vlow_unit="v", delay=0)
+    gen_high_voltage(l, gen, source=1, vhigh=-0.22, vhigh_unit="v", delay=0)
     gen_period(l, gen, source=1, period=1, period_unit="s", delay=0)
     gen_duty_cycle(l, gen, source=1, dutycycle=50, delay=0)
     # start_gen(l, gen,source=1)
@@ -209,9 +209,11 @@ offset = 0.15
 # os.mkdir("test_papk")
 # capture_data(l, osc, w_time=10, snap_period=0.5, f_name="test_papk/hello.txt")
 ###
+gen_reset(gen)
+
 stop_gen(l, gen, source=1)
 
-set_gen_form(l, gen, func="NOIS", freq=1, amp=0, offset=0.02)
+set_gen_form(l, gen, func="NOIS", freq=1, amp=0, offset=0.15)
 start_gen(l, gen, source=1)
 print("Starting experiment cycle. Switch on the supply and plug in the memristor. Waiting 50sec...")
 time.sleep(50)
@@ -219,14 +221,14 @@ time.sleep(50)
 while low_voltage+i <= high_voltage:
     uncoupling(l, gen, 5*60)
     gen_duty_cycle(l, gen, source=1, dutycycle=80, delay=0)
-    set_gen_form(l, gen, func="REXP", freq=0.05, amp=(low_voltage + i)-0.15, offset=(low_voltage+i-0.15)/2+0.05)
+    set_gen_form(l, gen, func="RAMP", freq=0.1, amp=(low_voltage + i)-0.15, offset=(low_voltage+i-0.15)/2+0.14)
     print("GENERATING {}V".format(low_voltage + i))
     # start_gen(l, gen, source=1)
     capture_data(l, osc, w_time=5*60, snap_period=0.5, f_name="VOLTAGE_0.15-{}V.txt".format(
                                                                                    low_voltage+i))
     i+=step
 
-set_gen_form(l, gen, func="NOIS", freq=1, amp=0, offset=0.02)
+set_gen_form(l, gen, func="NOIS", freq=1, amp=0, offset=0.15)
 start_gen(l, gen, source=1)
 print("EXPERIMENT DONE. Plug off the memristor and switch off the supply.")
 time.sleep(50)
