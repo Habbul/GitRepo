@@ -194,8 +194,8 @@ osc.write("DATa:WIDth 2")
 
 
 # main
-low_voltage = 0.2
-high_voltage = 0.8
+low_voltage = 0.15
+high_voltage = 0.15
 step = 0.1
 i=0
 offset = 0.15
@@ -216,16 +216,16 @@ stop_gen(l, gen, source=1)
 set_gen_form(l, gen, func="NOIS", freq=1, amp=0, offset=0.15)
 start_gen(l, gen, source=1)
 print("Starting experiment cycle. Switch on the supply and plug in the memristor. Waiting 50sec...")
-time.sleep(5)
+time.sleep(50)
 
 while low_voltage+i <= high_voltage:
-    uncoupling(l, gen, 10)
+    uncoupling(l, gen, 5*60)
     gen_duty_cycle(l, gen, source=1, dutycycle=90, delay=0)
     set_gen_form(l, gen, func="SQU", freq=0.05, amp=(low_voltage + i)-0.15, offset=(low_voltage+i-0.15)/2+0.14)
     start_gen(l, gen, source=1)
     print("GENERATING {}V".format(low_voltage + i))
     # start_gen(l, gen, source=1)
-    capture_data(l, osc, w_time=10, snap_period=0.5, f_name="VOLTAGE_0.15-{}V.txt".format(
+    capture_data(l, osc, w_time=5*60, snap_period=0.5, f_name="VOLTAGE_0.15-{}V.txt".format(
                                                                                    low_voltage+i))
     i+=step
 
