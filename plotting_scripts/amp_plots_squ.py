@@ -85,6 +85,8 @@ plt.ylim(0, 50000)
 plt.savefig('snaps/general_amp_plot.png')
 plt.show()
 print('amp_plot builded')
-
+#####
+#1V/8500divs
+#####
 
 # with open("pictures/{}.png".format(names[i]), 'w'):
