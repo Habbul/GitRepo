@@ -119,6 +119,17 @@ def uncoupling(l, dev, imp_time):
     # stop_gen(l, dev, source=1)
     print("UNCOUPLING DONE")
 
+def coupling(l, dev, imp_time):
+    # gen_low_voltage(l, gen, source=1, vlow=0.81, vlow_unit="v", delay=0)
+    # gen_high_voltage(l, gen, source=1, vhigh=0.8, vhigh_unit="v", delay=0)
+    # gen_period(l, gen, source=1, period=1, period_unit="s", delay=0)
+    # gen_duty_cycle(l, gen, source=1, dutycycle=50, delay=0)
+    # start_gen(l, gen,source=1)
+    set_gen_form(l, gen, func='NOIS', freq=1, amp=0, offset=0.8)
+    print("COUPLING(0.8V)...{} sec".format(imp_time))
+    time.sleep(imp_time)
+    # stop_gen(l, dev, source=1)
+    print("COUPLING DONE")
 def capture_data(l, dev, w_time, snap_period, f_name):
     result_time = []
     result = []
@@ -195,8 +206,8 @@ osc.write("DATa:WIDth 2")
 
 # main
 low_voltage = 0.15
-high_voltage = 0.15
-step = 0.1
+high_voltage = 0.2
+step = -0.05
 i=0
 offset = 0.15
 ###
@@ -217,17 +228,20 @@ set_gen_form(l, gen, func="NOIS", freq=1, amp=0, offset=0.15)
 start_gen(l, gen, source=1)
 print("Starting experiment cycle. Switch on the supply and plug in the memristor. Waiting 50sec...")
 time.sleep(50)
-
-while low_voltage+i <= high_voltage:
-    uncoupling(l, gen, 5*60)
+curr = 0.15
+while abs(curr+step) <= high_voltage:
+    curr+=step
+    coupling(l, gen, 5*60)
+    # print(curr)
     gen_duty_cycle(l, gen, source=1, dutycycle=90, delay=0)
-    set_gen_form(l, gen, func="SQU", freq=0.05, amp=(low_voltage + i)-0.15, offset=(low_voltage+i-0.15)/2+0.14)
+    set_gen_form(l, gen, func="SQU", freq=0.1, amp=abs(curr-0.15), offset=(curr-0.15)/2+0.15)
     start_gen(l, gen, source=1)
-    print("GENERATING {}V".format(low_voltage + i))
+    # time.sleep(15)
+    print("GENERATING {}V".format(curr))
     # start_gen(l, gen, source=1)
     capture_data(l, osc, w_time=5*60, snap_period=0.5, f_name="VOLTAGE_0.15-{}V.txt".format(
-                                                                                   low_voltage+i))
-    i+=step
+        curr))
+
 
 set_gen_form(l, gen, func="NOIS", freq=1, amp=0, offset=0.15)
 start_gen(l, gen, source=1)
