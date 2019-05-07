@@ -66,7 +66,23 @@ def down_liner(inp_data, signal_width):
 		count+=1
 	return(down_lines)
 
-
+def yticker(inp_data, step):
+	#step in volts
+	l = 0
+	for i in inp_data:
+		if l<i: l = i
+	yticks_pos = []
+	yticks_eval = []
+	i=0
+	while i<=l/8500:
+		yticks_pos.append(round(i*8500))
+		i+=step
+	i=0
+	while i<=l/8500:
+		yticks_eval.append(str(round(i, 3)))
+		i+=step
+	return(yticks_pos, yticks_eval)
+	# return([i*8500 for i in range(0, l/8500, step)], [str(i) for i  in range(0, l/8500, step)])
 
 for i in range(1,7):
 	s = names[i]
@@ -128,19 +144,27 @@ for i in range(1,7):
 		# up_line_plot_data.append(s_average(up_lines))
 
 		# plt.ylim(0, 15000)
-		# # plt.plot(filtred_snap)
+		# plt.plot(filtred_snap)
 		# plt.plot([s_average(up_liner(filtred_snap, 50)) for j in filtred_snap])
 		# plt.plot([s_average(down_liner(filtred_snap, 50)) for j in filtred_snap])
 		# plt.plot(filtred_snap, color='b')
 		# plt.savefig('snaps/snap{}.png'.format(i+1))
 		# plt.clf()
 		# print('snap{}'.format(i+1))
-	plt.plot(filter(amp_plot, 1))
+	plt.plot(filter(amp_plot, 10))
+	yticks = yticker(filter(amp_plot, 10), 0.1)
+	# print(yticks)
+	plt.yticks(yticks[0], yticks[1])
+	print(len(data[0][0]))
+	print(len(data[0][1]))
+	print(len(amp_plot))
+	# print(data[0][1])
+	plt.xticks([i for i in range(0, len(filter(amp_plot, 10)), 10)], [str(round(i/60, 2)) for i in data[0][1][0::10]][::10])
 	# plt.show()
 	# g_count = 0
 	# ret = amp_plot
 	# for g in range(g_count):
-	# 	ret = geometry_filter(ret)
+	# ret = geometry_filter(ret)
 	# plt.plot(ret)
 
 	# plt.plot(up_line_plot_data)
