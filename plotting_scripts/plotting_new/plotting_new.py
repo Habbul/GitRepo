@@ -1,5 +1,7 @@
 import matplotlib.pyplot as plt
 import math
+import snapper
+import averlines_plotting
 
 names = ['VOLTAGE_0.15-0.2V', 'VOLTAGE_0.15-0.30000000000000004V', 'VOLTAGE_0.15-0.4V', 'VOLTAGE_0.15-0.5V',
 'VOLTAGE_0.15-0.6000000000000001V', 'VOLTAGE_0.15-0.7V', 'VOLTAGE_0.15-0.8V']
@@ -92,22 +94,8 @@ def yticker(inp_data, step):
 	return(yticks_pos, yticks_eval)
 	# return([i*8500 for i in range(0, l/8500, step)], [str(i) for i  in range(0, l/8500, step)])
 
+#################################################################
+#####################SNAPPER#####################################
+#################################################################
 
-for i in range(1,7):
-	s = names[i]
-	with open ("{}.txt".format(s), "r") as f:
-		ret = f.readlines()
-	print(s)
-
-	data = [eval(i) for i in ret]
-	n=0
-
-	for sing_snap in data[0][0]:
-		filtred_snap = filter(sing_snap)
-
-		plt.plot([s_average(up_liner(filtred_snap, 50)) for j in filtred_snap])
-		plt.plot([s_average(down_liner(filtred_snap, 50)) for j in filtred_snap])
-		plt.plot(filtred_snap, color='b')
-		plt.savefig('snaps/snap{}.png'.format(i+1))
-		plt.clf()
-		print('snap{}'.format(i+1))
+snapper.snapper()
