@@ -14,6 +14,7 @@ def averlines_plotting():
 		data = [eval(i) for i in ret]
 
 		amp_plot = []
+		resistance_plots = []
 
 		n=0
 		j=-1
@@ -21,13 +22,15 @@ def averlines_plotting():
 			j+=1
 			filtred_snap = filterr(sing_snap, 20)
 			amp_plot.append(s_average(up_liner(filtred_snap, 20))-s_average(down_liner(filtred_snap, 20)))
-		
+
+		resistance_plots = []
+
 		xticks =[[i for i in range(0, len(amp_plot))], [str(round(i/60, 1)) for i in data[0][1]]]
 		plt.xticks(xticks[0][::20], xticks[1][::20])
 
 		yticks = yticker(amp_plot, 0.1)
 		plt.yticks(yticks[0], yticks[1])
-		
+
 		plt.plot(amp_plot)
 	plt.ylim(0, 30000)
 	plt.show()

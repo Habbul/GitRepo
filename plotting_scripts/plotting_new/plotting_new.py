@@ -1,7 +1,6 @@
 import matplotlib.pyplot as plt
 import math
-import snapper
-import averlines_plotting
+
 
 names = ['VOLTAGE_0.15-0.2V', 'VOLTAGE_0.15-0.30000000000000004V', 'VOLTAGE_0.15-0.4V', 'VOLTAGE_0.15-0.5V',
 'VOLTAGE_0.15-0.6000000000000001V', 'VOLTAGE_0.15-0.7V', 'VOLTAGE_0.15-0.8V']
@@ -15,7 +14,7 @@ def s_average(inp):
 	return(acc/len(inp))
 
 
-def filter(arr, width):
+def filterr(arr, width):
 	return([s_average(arr[i:i+width]) for i in range(0, len(arr), width)])
 
 
@@ -97,5 +96,3 @@ def yticker(inp_data, step):
 #################################################################
 #####################SNAPPER#####################################
 #################################################################
-
-snapper.snapper()
