@@ -25,11 +25,11 @@ def averlines_plotting():
 		xticks =[[i for i in range(0, len(amp_plot))], [str(round(i/60, 1)) for i in data[0][1]]]
 		plt.xticks(xticks[0][::20], xticks[1][::20])
 
-		yticks = yticker(amp_plot, 0.1)
-		plt.yticks(yticks[0], yticks[1])
+		# yticks = yticker(amp_plot, 0.1)
+		# plt.yticks(yticks[0], yticks[1])
 		
-		plt.plot(amp_plot)
-	plt.ylim(0, 30000)
+		plt.plot([i/8500 for i in amp_plot])
+	# plt.ylim(0, 30000)
 	plt.show()
 
 averlines_plotting()
