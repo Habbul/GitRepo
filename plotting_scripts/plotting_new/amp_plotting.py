@@ -20,8 +20,13 @@ def averlines_plotting():
 		for sing_snap in data[0][0]:
 			j+=1
 			filtred_snap = filterr(sing_snap, 20)
-			amp_plot.append(s_average(up_liner(filtred_snap, 20))-s_average(down_liner(filtred_snap, 20)))
-		
+
+			ns_up = new_up_liner(filtred_snap, 500)
+			ns_down = new_down_liner(filtred_snap, 300)
+			if (len(ns_down)!=0)&(len(ns_up)!=0):
+				amp_plot.append(s_average(ns_up)-s_average(ns_down))
+
+						
 		xticks =[[i for i in range(0, len(amp_plot))], [str(round(i/60, 1)) for i in data[0][1]]]
 		plt.xticks(xticks[0][::20], xticks[1][::20])
 
