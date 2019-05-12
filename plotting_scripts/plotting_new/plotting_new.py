@@ -93,6 +93,68 @@ def yticker(inp_data, step):
 	return(yticks_pos, yticks_eval)
 	# return([i*8500 for i in range(0, l/8500, step)], [str(i) for i  in range(0, l/8500, step)])
 
+def new_up_liner(snap, hill_height):
+	light_p = snap[0]
+	heavy_p = snap[0]
+	for i in snap:
+		if i>light_p:
+			light_p=i
+		if i<heavy_p:
+			heavy_p=i
+	level_line = abs((light_p-heavy_p)/2+heavy_p)
+	print(level_line)
+	
+
+	up_lines=[]
+	light_p = level_line
+	old_time = 6
+	j=-1
+	some_lines = []
+	overline = False
+	if snap[0]> level_line:
+		overline = True
+	for i in snap:
+		if light_p<i:
+			light_p=i
+		if (i<level_line)&(light_p-level_line>hill_height):
+			up_lines.append(light_p)
+			light_p=i
+	# print(len(up_lines))
+	return(up_lines)
+
+
+def new_down_liner(snap, hill_height):
+	light_p = snap[0]
+	heavy_p = snap[0]
+	for i in snap:
+		if i>light_p:
+			light_p=i
+		if i<heavy_p:
+			heavy_p=i
+	level_line = abs((light_p-heavy_p)/2+heavy_p)
+	print(level_line)
+	
+
+	down_lines=[]
+	heavy_p = level_line
+	old_time = 6
+	j=-1
+	some_lines = []
+	overline = False
+	if snap[0]> level_line:
+		overline = True
+	for i in snap:
+		if heavy_p>i:
+			heavy_p=i
+		if (i>level_line)&(level_line-heavy_p>hill_height):
+			down_lines.append(heavy_p)
+			heavy_p=i
+
+	# for i in down_lines:
+	# 	plt.plot([i for l in snap], color='g')
+
+	# print(len(down_lines))
+	return(down_lines)
 #################################################################
 #####################SNAPPER#####################################
 #################################################################

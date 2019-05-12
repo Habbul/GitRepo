@@ -26,8 +26,13 @@ def snapper():
 			filtred_snap = filterr(sing_snap, 20)	
 
 			######SNAP#############################################
-			plt.plot([s_average(up_liner(filtred_snap, 20)) for j in filtred_snap])
-			plt.plot([s_average(down_liner(filtred_snap, 20)) for j in filtred_snap])
+			# new_down_liner(filtred_snap, 300)
+			ns_up = new_up_liner(filtred_snap, 500)
+			ns_down = new_down_liner(filtred_snap, 300)
+			if len(ns_up)!=0:
+				plt.plot([s_average(ns_up) for i in filtred_snap])
+			if len(ns_down)!=0:
+				plt.plot([s_average(ns_down) for i in filtred_snap])
 			plt.plot(filtred_snap, color='b')
 			plt.savefig('snaps/snap{}.png'.format(j+1))
 			plt.clf()
