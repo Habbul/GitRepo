@@ -111,14 +111,16 @@ def new_up_liner(snap, hill_height):
 	j=-1
 	some_lines = []
 	overline = False
+	flag = False
 	if snap[0]> level_line:
 		overline = True
 	for i in snap:
 		if light_p<i:
 			light_p=i
 		if (i<level_line)&(light_p-level_line>hill_height):
-			up_lines.append(light_p)
+			if flag: up_lines.append(light_p)
 			light_p=i
+			flag = True
 	# print(len(up_lines))
 	return(up_lines)
 
@@ -141,14 +143,16 @@ def new_down_liner(snap, hill_height):
 	j=-1
 	some_lines = []
 	overline = False
+	flag = False
 	if snap[0]> level_line:
 		overline = True
 	for i in snap:
 		if heavy_p>i:
 			heavy_p=i
 		if (i>level_line)&(level_line-heavy_p>hill_height):
-			down_lines.append(heavy_p)
-			heavy_p=i
+			if (flag == True): down_lines.append(heavy_p)
+			heavy_p=level_line
+			flag = True
 
 	# for i in down_lines:
 	# 	plt.plot([i for l in snap], color='g')

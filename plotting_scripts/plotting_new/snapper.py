@@ -9,7 +9,7 @@ def snapper():
 'VOLTAGE_0.15-0.6000000000000001V', 'VOLTAGE_0.15-0.7V', 'VOLTAGE_0.15-0.8V']
 	input_up_lines_files = [0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8]
 	
-	for i in range(1,7):
+	for i in range(6,7):
 		s = names[i]
 		with open ("{}.txt".format(s), "r") as f:
 			ret = f.readlines()
@@ -27,8 +27,9 @@ def snapper():
 
 			######SNAP#############################################
 			# new_down_liner(filtred_snap, 300)
-			ns_up = new_up_liner(filtred_snap, 500)
-			ns_down = new_down_liner(filtred_snap, 300)
+			plt.ylim(0,15000)
+			ns_up = new_up_liner(filtred_snap, 100)
+			ns_down = new_down_liner(filtred_snap, 100)
 			if len(ns_up)!=0:
 				plt.plot([s_average(ns_up) for i in filtred_snap])
 			if len(ns_down)!=0:
