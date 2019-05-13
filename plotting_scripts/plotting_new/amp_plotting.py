@@ -27,14 +27,16 @@ def averlines_plotting():
 				amp_plot.append(s_average(ns_up)-s_average(ns_down))
 
 						
-		xticks =[[i for i in range(0, len(amp_plot))], [str(round(i/60, 1)) for i in data[0][1]]]
-		plt.xticks(xticks[0][::20], xticks[1][::20])
+
 
 		# yticks = yticker(amp_plot, 0.1)
 		# plt.yticks(yticks[0], yticks[1])
-		
-		plt.plot([i/8500 for i in amp_plot])
+		filtred_amp_plot = filterr(amp_plot, 4)
+		plt.plot([i/8500 for i in filtred_amp_plot])
 	# plt.ylim(0, 30000)
+	xticks =[[i for i in range(0, len(filtred_amp_plot))], [str(round(i/60, 1)) for i in data[0][1][::4]]]
+	plt.xticks(xticks[0][::15], xticks[1][::15])
+	plt.legend(tuple(['Voltage {}'.format(i) for i in input_up_lines_files[1::]]))
 	plt.show()
 
 averlines_plotting()
