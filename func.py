@@ -130,6 +130,8 @@ def coupling(l, dev, imp_time):
     time.sleep(imp_time)
     # stop_gen(l, dev, source=1)
     print("COUPLING DONE")
+def osc_reset(dev):
+    dev.write("*RST")
 def capture_data(l, dev, w_time, snap_period, f_name):
     result_time = []
     result = []
@@ -140,8 +142,8 @@ def capture_data(l, dev, w_time, snap_period, f_name):
     while temp-start_time < w_time:
         temp = dt.now().timestamp()
         result_time.append(temp-start_time)
+        # print('capturing iter')
         result.append(osc_get_data(l, osc))
-
         while dt.now().timestamp()-temp < snap_period:
             pass
 
@@ -191,7 +193,7 @@ rez_coef = 25 // vpd  # 50
 
 rm = visa.ResourceManager()
 rm.list_resources("?*")
-gen = rm.open_resource("USB0::0x4348::0x5537::NI-VISA-40001::RAW")
+gen = rm.open_resource("USB0::0x4348::0x5537::NI-VISA-30005::RAW")
 gen.timeout = 5000
 osc = rm.open_resource("USB0::0x0699::0x03A6::C041256::INSTR")
 print(osc)
@@ -205,9 +207,9 @@ osc.write("DATa:WIDth 2")
 
 
 # main
-low_voltage = 0.15
-high_voltage = 0.2
-step = -0.05
+low_voltage = 0.3
+high_voltage = 0.8
+step = 0.1
 i=0
 offset = 0.15
 ###
@@ -228,13 +230,13 @@ set_gen_form(l, gen, func="NOIS", freq=1, amp=0, offset=0.15)
 start_gen(l, gen, source=1)
 print("Starting experiment cycle. Switch on the supply and plug in the memristor. Waiting 50sec...")
 time.sleep(50)
-curr = 0.15
+curr = low_voltage-step
 while abs(curr+step) <= high_voltage:
     curr+=step
-    coupling(l, gen, 5*60)
+    uncoupling(l, gen, 5*60)
     # print(curr)
     gen_duty_cycle(l, gen, source=1, dutycycle=90, delay=0)
-    set_gen_form(l, gen, func="SQU", freq=0.1, amp=abs(curr-0.15), offset=(curr-0.15)/2+0.15)
+    set_gen_form(l, gen, func="REXP", freq=0.2, amp=abs(curr-0.15), offset=(curr-0.15)/2+0.15)
     start_gen(l, gen, source=1)
     # time.sleep(15)
     print("GENERATING {}V".format(curr))
@@ -242,7 +244,7 @@ while abs(curr+step) <= high_voltage:
     capture_data(l, osc, w_time=5*60, snap_period=0.5, f_name="VOLTAGE_0.15-{}V.txt".format(
         curr))
 
-
+print('cycle done')
 set_gen_form(l, gen, func="NOIS", freq=1, amp=0, offset=0.15)
 start_gen(l, gen, source=1)
 print("EXPERIMENT DONE. Plug off the memristor and switch off the supply.")
