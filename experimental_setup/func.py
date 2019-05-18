@@ -236,7 +236,7 @@ while curr+step <= high_voltage:
     coupling(l, gen, 10*60)
     # print(curr)
     gen_duty_cycle(l, gen, source=1, dutycycle=90, delay=0)
-    set_gen_form(l, gen, func="SQU", freq=0.05, amp=abs(curr-0.15), offset=(curr-0.15)/2+0.15)
+    set_gen_form(l, gen, func="SQU", freq=0.1, amp=abs(curr-0.15), offset=(curr-0.15)/2+0.15)
     start_gen(l, gen, source=1)
     # time.sleep(15)
     print("GENERATING {}V".format(curr))
