@@ -161,6 +161,8 @@ def new_down_liner(snap, hill_height):
 	return(down_lines)
 
 def simple_amplituder(snapp, period):
+	lower_lines = []
+	upper_lines = []
 	for i in range(0,period):
 		for l in range(i, len(snapp), period):
 			light_p = snapp[l]
