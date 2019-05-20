@@ -193,7 +193,7 @@ rez_coef = 25 // vpd  # 50
 
 rm = visa.ResourceManager()
 rm.list_resources("?*")
-gen = rm.open_resource("USB0::0x4348::0x5537::NI-VISA-30002::RAW")
+gen = rm.open_resource("USB0::0x4348::0x5537::NI-VISA-40005::RAW")
 gen.timeout = 5000
 osc = rm.open_resource("USB0::0x0699::0x03A6::C041256::INSTR")
 print(osc)
@@ -235,8 +235,8 @@ while curr+step <= high_voltage:
     curr+=step
     coupling(l, gen, 10*60)
     # print(curr)
-    gen_duty_cycle(l, gen, source=1, dutycycle=90, delay=0)
-    set_gen_form(l, gen, func="SQU", freq=0.2, amp=abs(curr-0.15), offset=(curr-0.15)/2+0.15)
+    gen_duty_cycle(l, gen, source=1, dutycycle=10, delay=0)
+    set_gen_form(l, gen, func="SQU", freq=0.1, amp=abs(curr-0.15), offset=(curr-0.15)/2+0.15)
     start_gen(l, gen, source=1)
     # time.sleep(15)
     print("GENERATING {}V".format(curr))
