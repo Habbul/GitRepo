@@ -159,6 +159,23 @@ def new_down_liner(snap, hill_height):
 
 	# print(len(down_lines))
 	return(down_lines)
+
+def simple_amplituder(snapp, period):
+	for i in range(0,period):
+		for l in range(i, len(snapp), period):
+			light_p = snapp[l]
+			heavy_p = snapp[l]
+			for j in snapp[l:l+period]:
+				if j>light_p:
+					light_p = j
+				if j<heavy_p:
+					heavy_p = j
+				lower_lines.append(heavy_p)
+				upper_lines.append(light_p)
+	amplitude = s_average(upper_lines)-s_average(lower_lines)
+	return [upper_lines, lower_lines, amplitude]
+
+
 #################################################################
 #####################SNAPPER#####################################
 #################################################################
