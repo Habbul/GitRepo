@@ -207,7 +207,7 @@ osc.write("DATa:WIDth 2")
 
 
 # main
-low_voltage = 0.3
+low_voltage = 0.5
 high_voltage = 0.8
 step = 0.1
 i=0
