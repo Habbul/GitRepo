@@ -193,7 +193,7 @@ rez_coef = 25 // vpd  # 50
 
 rm = visa.ResourceManager()
 rm.list_resources("?*")
-gen = rm.open_resource("USB0::0x4348::0x5537::NI-VISA-30002::RAW")
+gen = rm.open_resource("USB0::0x4348::0x5537::NI-VISA-40005::RAW")
 gen.timeout = 5000
 osc = rm.open_resource("USB0::0x0699::0x03A6::C041256::INSTR")
 print(osc)
@@ -229,14 +229,14 @@ stop_gen(l, gen, source=1)
 set_gen_form(l, gen, func="NOIS", freq=1, amp=0, offset=0.15)
 start_gen(l, gen, source=1)
 print("Starting experiment cycle. Switch on the supply and plug in the memristor. Waiting 50sec...")
-time.sleep(50)
+time.sleep(30)
 curr = low_voltage-step
 while curr+step <= high_voltage:
     curr+=step
     uncoupling(l, gen, 5*60)
     # print(curr)
-    gen_duty_cycle(l, gen, source=1, dutycycle=90, delay=0)
-    set_gen_form(l, gen, func="SQU", freq=0.05, amp=abs(curr-0.15), offset=(curr-0.15)/2+0.15)
+    gen_duty_cycle(l, gen, source=1, dutycycle=80, delay=0)
+    set_gen_form(l, gen, func="SQU", freq=0.2, amp=abs(curr-0.15), offset=(curr-0.15)/2+0.15)
     start_gen(l, gen, source=1)
     # time.sleep(15)
     print("GENERATING {}V".format(curr))
