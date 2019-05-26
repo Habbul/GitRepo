@@ -5,9 +5,9 @@ from plotting_new import *
 # input_up_lines_files = [0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8]
 
 def averlines_plotting():
-	names = ['VOLTAGE_0.15-0.3V', 'VOLTAGE_0.15-0.4V', 'VOLTAGE_0.15-0.5V', 'VOLTAGE_0.15-0.6V',
-'VOLTAGE_0.15-0.7V', 'VOLTAGE_0.15-0.7999999999999999V']
-	input_voltages = [0.3, 0.4, 0.5, 0.6, 0.7, 0.8]
+	names = ['VOLTAGE_0.15-0.2V', 'VOLTAGE_0.15-0.30000000000000004V', 'VOLTAGE_0.15-0.4V', 'VOLTAGE_0.15-0.5V',
+'VOLTAGE_0.15-0.6000000000000001V', 'VOLTAGE_0.15-0.7V', 'VOLTAGE_0.15-0.8V']
+	input_voltages = [0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8]
 	
 	for i in range(1,7):
 		s = names[i]
