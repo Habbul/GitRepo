@@ -89,7 +89,7 @@ def stop_gen(log, dev, source=1):
 def osc_get_data(log, dev):
     """RETURS DATA IN STRING FORMAT"""
     log.debug("READ OSC DATA - {}".format(dev.write('ACQ:STATE ON')))  # record one snapshot
-    time.sleep(0.1)
+    time.sleep(0)
     # basically, screenshot
 
     # receive data and return as string of bytes
@@ -109,8 +109,8 @@ def printer(s):
     print(s)
 
 def uncoupling(l, dev, imp_time):
-    gen_low_voltage(l, gen, source=1, vlow=-0.2205, vlow_unit="v", delay=0)
-    gen_high_voltage(l, gen, source=1, vhigh=-0.22, vhigh_unit="v", delay=0)
+    gen_low_voltage(l, gen, source=1, vlow=-0.205, vlow_unit="v", delay=0)
+    gen_high_voltage(l, gen, source=1, vhigh=-0.2, vhigh_unit="v", delay=0)
     gen_period(l, gen, source=1, period=1, period_unit="s", delay=0)
     gen_duty_cycle(l, gen, source=1, dutycycle=50, delay=0)
     # start_gen(l, gen,source=1)
@@ -198,7 +198,7 @@ gen.timeout = 5000
 osc = rm.open_resource("USB0::0x0699::0x03A6::C041256::INSTR")
 print(osc)
 osc.timeout = 5000
-set_osc_ch(l, osc, 1, 0.75, 0)
+set_osc_ch(l, osc, 1, 0.2, 0)
 # set_osc_hor(l, osc, t=10 ** -3)
 osc.encoding = "utf-8"
 osc.query("*IDN?")
@@ -207,11 +207,14 @@ osc.write("DATa:WIDth 2")
 
 
 # main
-low_voltage = 0.5
+low_voltage = 0.8
 high_voltage = 0.8
 step = 0.1
 i=0
 offset = 0.15
+
+min_freq = 0.02
+max_freq = 0.52
 ###
 # gen_duty_cycle(l, gen, source=1, dutycycle=50, delay=0.15)
 # set_gen_form(l, gen, "SQU", freq = 0.1, amp=0.5, offset=0)
@@ -229,20 +232,21 @@ stop_gen(l, gen, source=1)
 set_gen_form(l, gen, func="NOIS", freq=1, amp=0, offset=0.15)
 start_gen(l, gen, source=1)
 print("Starting experiment cycle. Switch on the supply and plug in the memristor. Waiting 50sec...")
-time.sleep(30)
-curr = low_voltage-step
-while curr+step <= high_voltage:
-    curr+=step
+time.sleep(50)
+curr = min_freq
+while curr <= max_freq:
     uncoupling(l, gen, 5*60)
     # print(curr)
-    gen_duty_cycle(l, gen, source=1, dutycycle=80, delay=0)
-    set_gen_form(l, gen, func="SQU", freq=0.3, amp=abs(curr-0.15), offset=(curr-0.15)/2+0.15)
+    gen_duty_cycle(l, gen, source=1, dutycycle=50, delay=0)
+    set_gen_form(l, gen, func="SQU", freq=curr, amp=abs(0.8-0.15), offset=(0.8-0.15)/2+0.15)
     start_gen(l, gen, source=1)
-    # time.sleep(15)
-    print("GENERATING {}V".format(curr))
-    # start_gen(l, gen, source=1)
-    capture_data(l, osc, w_time=5*60, snap_period=0.5, f_name="VOLTAGE_0.15-{}V.txt".format(
+    print("GENERATING {}kHz".format(curr))
+
+    capture_data(l, osc, w_time=5*60, snap_period=0.5, f_name="FREQ_{}kHz.txt".format(
         curr))
+    # time.sleep(15)
+    # start_gen(l, gen, source=1)
+    curr+=step
 
 print('cycle done')
 set_gen_form(l, gen, func="NOIS", freq=1, amp=0, offset=0.15)
