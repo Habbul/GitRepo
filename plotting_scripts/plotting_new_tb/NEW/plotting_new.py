@@ -106,14 +106,15 @@ def yticker(inp_data, step):
 	# return([i*8500 for i in range(0, l/8500, step)], [str(i) for i  in range(0, l/8500, step)])
 
 def new_up_liner(snap, hill_height):
-	light_p = snap[0]
-	heavy_p = snap[0]
-	for i in snap:
+	filtred_snap = filterr(snap, 40)
+	light_p = filtred_snap[0]
+	heavy_p = filtred_snap[0]
+	for i in filtred_snap:
 		if i>light_p:
 			light_p=i
 		if i<heavy_p:
 			heavy_p=i
-	level_line = abs((light_p-heavy_p)/2+heavy_p)
+	level_line = (light_p-heavy_p)/2+heavy_p
 	print(level_line)
 	
 
@@ -138,14 +139,15 @@ def new_up_liner(snap, hill_height):
 
 
 def new_down_liner(snap, hill_height):
-	light_p = snap[0]
-	heavy_p = snap[0]
-	for i in snap:
+	filtred_snap = filterr(snap, 40)
+	light_p = filtred_snap[0]
+	heavy_p = filtred_snap[0]
+	for i in filtred_snap:
 		if i>light_p:
 			light_p=i
 		if i<heavy_p:
 			heavy_p=i
-	level_line = abs((light_p-heavy_p)/2+heavy_p)
+	level_line = (light_p-heavy_p)/2+heavy_p
 	print(level_line)
 	
 
