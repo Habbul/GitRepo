@@ -198,7 +198,7 @@ gen.timeout = 5000
 osc = rm.open_resource("USB0::0x0699::0x03A6::C041256::INSTR")
 print(osc)
 osc.timeout = 5000
-set_osc_ch(l, osc, 1, 0.2, 0)
+set_osc_ch(l, osc, 1, 0.4, 0)
 # set_osc_hor(l, osc, t=10 ** -3)
 osc.encoding = "utf-8"
 osc.query("*IDN?")
