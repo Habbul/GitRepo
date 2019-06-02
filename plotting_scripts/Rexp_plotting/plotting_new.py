@@ -13,13 +13,25 @@ def s_average(inp):
 		acc+=i
 	return(acc/len(inp))
 
-
+def middle(inp):
+	light_p = inp[0]
+	heavy_p = inp[0]
+	for i in inp:
+		if light_p<i:
+			light_p = i
+		if heavy_p>i:
+			heavy_p = i
+	return (light_p+heavy_p)/2
+	
 def filterr(arr, width):
 	return([s_average(arr[i:i+width]) for i in range(0, len(arr), width)])
 
 
-def geometry_filter(inp_data):
-	return([(inp_data[i-1]+inp_data[i])/2 for i in range(1, len(inp_data), 2)])
+def geometry_filter(inp_data, count):
+	out = [(inp_data[i-1]+inp_data[i])/2 for i in range(1, len(inp_data))]
+	for i in range(count-1):
+		out = [(out[i-1]+out[i])/2 for i in range(1, len(out))]
+	return(out)
 
 
 def up_liner(inp_data, signal_width):
@@ -94,7 +106,7 @@ def yticker(inp_data, step):
 	# return([i*8500 for i in range(0, l/8500, step)], [str(i) for i  in range(0, l/8500, step)])
 
 def new_up_liner(snap, hill_height):
-	filtred_snap = filterr(snap, 20)
+	filtred_snap = filterr(snap, 40)
 	light_p = filtred_snap[0]
 	heavy_p = filtred_snap[0]
 	for i in filtred_snap:
@@ -102,17 +114,17 @@ def new_up_liner(snap, hill_height):
 			light_p=i
 		if i<heavy_p:
 			heavy_p=i
-	level_line = (light_p-heavy_p)/4+heavy_p
+	level_line = (light_p-heavy_p)/2+heavy_p
 	print(level_line)
 	
-	hill_height = light_p-level_line-10
+
 	up_lines=[]
 	light_p = level_line
 	old_time = 6
 	j=-1
 	some_lines = []
 	overline = False
-	flag = True
+	flag = False
 	if snap[0]> level_line:
 		overline = True
 	for i in snap:
@@ -127,7 +139,7 @@ def new_up_liner(snap, hill_height):
 
 
 def new_down_liner(snap, hill_height):
-	filtred_snap = filterr(snap, 20)
+	filtred_snap = filterr(snap, 40)
 	light_p = filtred_snap[0]
 	heavy_p = filtred_snap[0]
 	for i in filtred_snap:
