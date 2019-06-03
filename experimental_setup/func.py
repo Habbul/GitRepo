@@ -15,7 +15,7 @@ def gen_period(log, dev, source=1, period=1, period_unit="s", delay=0.15):
 
 print('hello')
 
-def gen_duty_cycle(log, dev, source=1, dutycycle=50, delay=0.5):
+def gen_duty_cycle(log, dev, source=1, dutycycle=50, delay=0):
     log.debug("SET DUTY CYCLE on SOURCE {} - {}".format(source,
                                                         dev.write("SOUR{}:FUNC:SQU:DCYC {}".format(source, dutycycle))))
     time.sleep(delay)
@@ -78,7 +78,7 @@ def set_trigger(log, dev, channel=1, level=1.0):
 
 def start_gen(log, dev, source=1):
     log.debug("TURN GEN SOURCE{} ON - {}".format(source, dev.write('OUTP{} 1'.format(source))))
-    time.sleep(0.15)
+    time.sleep(0)
 
 
 def stop_gen(log, dev, source=1):
@@ -100,7 +100,7 @@ def osc_get_data(log, dev):
 
 def set_gen_form(log, dev, func, freq = 0.1, amp=0.5, offset=0):
     log.debug("TURN GEN SOURCE{}".format(dev.write('APPLy:{} {}kHz,{},{}'.format(func,freq,amp,offset))))
-    time.sleep(1.8)
+    time.sleep(0)
 
 def gen_reset(dev):
     dev.write('*RST')
@@ -109,8 +109,8 @@ def printer(s):
     print(s)
 
 def uncoupling(l, dev, imp_time):
-    gen_low_voltage(l, gen, source=1, vlow=-0.205, vlow_unit="v", delay=0)
-    gen_high_voltage(l, gen, source=1, vhigh=-0.2, vhigh_unit="v", delay=0)
+    gen_low_voltage(l, gen, source=1, vlow=-0.200, vlow_unit="v", delay=0)
+    gen_high_voltage(l, gen, source=1, vhigh=-0.195, vhigh_unit="v", delay=0)
     gen_period(l, gen, source=1, period=1, period_unit="s", delay=0)
     gen_duty_cycle(l, gen, source=1, dutycycle=50, delay=0)
     # start_gen(l, gen,source=1)
@@ -215,6 +215,9 @@ offset = 0.15
 
 min_freq = 0.02
 max_freq = 0.52
+
+min_dcycle = 20
+max_dcycle = 80
 ###
 # gen_duty_cycle(l, gen, source=1, dutycycle=50, delay=0.15)
 # set_gen_form(l, gen, "SQU", freq = 0.1, amp=0.5, offset=0)
@@ -233,16 +236,17 @@ set_gen_form(l, gen, func="NOIS", freq=1, amp=0, offset=0.15)
 start_gen(l, gen, source=1)
 print("Starting experiment cycle. Switch on the supply and plug in the memristor. Waiting 50sec...")
 time.sleep(50)
-curr = min_freq
-while curr <= max_freq:
+curr = min_dcycle
+step = 20
+while curr <= max_dcycle:
     uncoupling(l, gen, 5*60)
     # print(curr)
-    gen_duty_cycle(l, gen, source=1, dutycycle=50, delay=0)
-    set_gen_form(l, gen, func="SQU", freq=curr, amp=abs(0.8-0.15), offset=(0.8-0.15)/2+0.15)
+    gen_duty_cycle(l, gen, source=1, dutycycle=curr, delay=0)
+    set_gen_form(l, gen, func="SQU", freq=0.1, amp=abs(0.8-0.15), offset=(0.8-0.15)/2+0.15-0.01)
     start_gen(l, gen, source=1)
     print("GENERATING {}kHz".format(curr))
 
-    capture_data(l, osc, w_time=5*60, snap_period=0.5, f_name="FREQ_{}kHz.txt".format(
+    capture_data(l, osc, w_time=5*60, snap_period=0.5, f_name="DCYCLE_{}%.txt".format(
         curr))
     # time.sleep(15)
     # start_gen(l, gen, source=1)
