@@ -193,7 +193,7 @@ rez_coef = 25 // vpd  # 50
 
 rm = visa.ResourceManager()
 rm.list_resources("?*")
-gen = rm.open_resource("USB0::0x4348::0x5537::NI-VISA-40005::RAW")
+gen = rm.open_resource("USB0::0x4348::0x5537::NI-VISA-30002::RAW")
 gen.timeout = 5000
 osc = rm.open_resource("USB0::0x0699::0x03A6::C041256::INSTR")
 print(osc)
@@ -207,11 +207,13 @@ osc.write("DATa:WIDth 2")
 
 
 # main
-low_voltage = 0.8
-high_voltage = 0.8
+
 step = 0.1
 i=0
 offset = 0.15
+
+min_voltage = 0.3
+max_voltage = 0.8
 
 min_freq = 0.02
 max_freq = 0.52
@@ -236,17 +238,17 @@ set_gen_form(l, gen, func="NOIS", freq=1, amp=0, offset=0.15)
 start_gen(l, gen, source=1)
 print("Starting experiment cycle. Switch on the supply and plug in the memristor. Waiting 50sec...")
 time.sleep(50)
-curr = min_freq
-step = 0.1
-while curr <= max_freq:
-    uncoupling(l, gen, 5*60)
+curr = min_dcycle
+step = 20
+while curr <= max_dcycle:
+    uncoupling(l, gen, 10*60)
     # print(curr)
-    gen_duty_cycle(l, gen, source=1, dutycycle=50, delay=0)
-    set_gen_form(l, gen, func="SQU", freq=curr, amp=abs(0.8-0.15), offset=(0.8-0.15)/2+0.15-0.01)
+    gen_duty_cycle(l, gen, source=1, dutycycle=curr, delay=0)
+    set_gen_form(l, gen, func="SQU", freq=0.1, amp=abs(0.8-0.15), offset=(0.8-0.15)/2+0.15-0.01)
     start_gen(l, gen, source=1)
-    print("GENERATING {}kHz".format(curr))
+    print("GENERATING {}V".format(curr))
 
-    capture_data(l, osc, w_time=5*60, snap_period=0.5, f_name="FREQ_{}kHz.txt".format(
+    capture_data(l, osc, w_time=5*60, snap_period=0.5, f_name="DCYCLE_{}%.txt".format(
         curr))
     # time.sleep(15)
     # start_gen(l, gen, source=1)
