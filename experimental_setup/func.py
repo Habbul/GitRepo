@@ -212,8 +212,8 @@ step = 0.1
 i=0
 offset = 0.15
 
-min_voltage = -0.2
-max_voltage = 0.1
+min_voltage = 0.3
+max_voltage = 0.8
 
 min_freq = 0.02
 max_freq = 0.52
@@ -241,7 +241,7 @@ time.sleep(50)
 curr = min_voltage
 step = 0.1
 while curr <= max_voltage:
-    coupling(l, gen, 5*60)
+    uncoupling(l, gen, 5*60)
     # print(curr)
     gen_duty_cycle(l, gen, source=1, dutycycle=50, delay=0)
     set_gen_form(l, gen, func="SQU", freq=0.1, amp=abs(curr-0.15), offset=(curr-0.15)/2+0.15-0.006)
