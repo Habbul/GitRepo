@@ -157,7 +157,7 @@ def new_down_liner(snap, hill_height):
 	j=-1
 	some_lines = []
 	overline = False
-	flag = True
+	flag = False
 	if snap[0]> level_line:
 		overline = True
 	for i in snap:

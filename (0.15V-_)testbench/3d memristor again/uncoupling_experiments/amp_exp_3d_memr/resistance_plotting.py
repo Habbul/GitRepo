@@ -15,9 +15,9 @@ def averlines_plotting():
 	input_voltages_uncoupling = [-0.2, -0.1, 0.0, 0.1]
 	kHzs = [0.02, 0.12, 0.22, 0.32, 0.42, 0.52]
 
-	for i in range(0,6):
+	for i in range(0,4):
 		s = names[i]
-		input_voltage = input_voltages_uncoupling
+		input_voltage = input_voltages_uncoupling[i]
 
 		with open ("{}.txt".format(s), "r") as f:
 			ret = f.readlines()
@@ -60,7 +60,7 @@ def averlines_plotting():
 
 		plt.plot(resistance_plot)
 	plt.ylim(0, 5)
-	plt.legend(tuple(['{}kHz'.format(i) for i in kHzs[0::]]))
+	plt.legend(tuple(['{}V'.format(i) for i in input_voltages_uncoupling[0::]]))
 	plt.xlabel('Time, min')
 	plt.ylabel('Resistance, MΩ')
 	plt.show()

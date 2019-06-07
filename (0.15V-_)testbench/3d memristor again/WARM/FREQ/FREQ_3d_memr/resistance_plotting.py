@@ -5,12 +5,12 @@ from plotting_new import *
 # input_voltages = [0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8]
 
 def averlines_plotting():
-	# names = ['FREQ_0.02kHz', 'FREQ_0.12000000000000001kHz', 'FREQ_0.22000000000000003kHz', 'FREQ_0.32000000000000006kHz', 
-	#  'FREQ_0.42000000000000004kHz', 'FREQ_0.52kHz']
+	names = ['FREQ_0.02kHz', 'FREQ_0.12000000000000001kHz', 'FREQ_0.22000000000000003kHz', 'FREQ_0.32000000000000006kHz', 
+	 'FREQ_0.42000000000000004kHz', 'FREQ_0.52kHz']
 	# input_voltages = [0.3, 0.4, 0.5, 0.6, 0.7, 0.8]
 	# names = ['DCYCLE_20%', 'DCYCLE_40%', 'DCYCLE_60%', 'DCYCLE_80%',]
-	names = ['VOLTAGE_0.3V', 'VOLTAGE_0.4V', 'VOLTAGE_0.5V', 'VOLTAGE_0.6V', 'VOLTAGE_0.7V',
-	'VOLTAGE_0.7999999999999999V']
+	# names = ['VOLTAGE_0.3V', 'VOLTAGE_0.4V', 'VOLTAGE_0.5V', 'VOLTAGE_0.6V', 'VOLTAGE_0.7V',
+	# 'VOLTAGE_0.7999999999999999V']
 	
 	dcycles = [20, 40, 60, 80]
 	kHzs = [0.02, 0.12, 0.22, 0.32, 0.42, 0.52]
@@ -30,7 +30,7 @@ def averlines_plotting():
 
 		n=0
 		j=-1
-		for sing_snap in data[0][0]:
+		for sing_snap in data[0][0][5:]:
 			j+=1
 			filtred_snap = geometry_filter(sing_snap, 200)
 			
@@ -61,7 +61,7 @@ def averlines_plotting():
 
 		plt.plot(resistance_plot)
 	plt.ylim(0, 5)
-	plt.legend(tuple(['{}V'.format(i) for i in input_voltages[0::]]))
+	plt.legend(tuple(['{}kHz'.format(i) for i in kHzs[0::]]))
 	plt.xlabel('Time, min')
 	plt.ylabel('Resistance, MΩ')
 	plt.show()

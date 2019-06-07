@@ -11,7 +11,7 @@ def snapper():
 	input_voltages_uncoupling = [-0.2, -0.1, 0.0, 0.1]
 	kHzs = [0.02, 0.12, 0.22, 0.32, 0.42, 0.52]
 
-	for i in range(0,4):
+	for i in range(3,4):
 		s = names[i]
 		with open ("{}.txt".format(s), "r") as f:
 			ret = f.readlines()
