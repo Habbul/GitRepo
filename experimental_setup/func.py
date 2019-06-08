@@ -212,7 +212,7 @@ step = 0.1
 i=0
 offset = 0.15
 
-min_voltage = 0.8
+min_voltage = 0.3
 max_voltage = 0.8
 
 min_freq = 0.02
@@ -237,18 +237,18 @@ stop_gen(l, gen, source=1)
 set_gen_form(l, gen, func="NOIS", freq=1, amp=0, offset=0.15)
 start_gen(l, gen, source=1)
 print("Starting experiment cycle. Switch on the supply and plug in the memristor. Waiting 50sec...")
-time.sleep(10)
+time.sleep(50)
 curr = min_voltage
 step = 0.1
 while curr <= max_voltage:
-    uncoupling(l, gen, 10)
+    uncoupling(l, gen, 5*60)
     # print(curr)
     gen_duty_cycle(l, gen, source=1, dutycycle=50, delay=0)
     set_gen_form(l, gen, func="SQU", freq=0.1, amp=0, offset=curr)
     start_gen(l, gen, source=1)
     print("GENERATING {}V".format(curr))
 
-    capture_data(l, osc, w_time=10, snap_period=0.5, f_name="polka_{}V.txt".format(
+    capture_data(l, osc, w_time=5*60, snap_period=0.5, f_name="polka_{}V.txt".format(
         curr))
     # time.sleep(15)
     # start_gen(l, gen, source=1)
