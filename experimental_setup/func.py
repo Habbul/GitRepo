@@ -212,7 +212,7 @@ step = 0.1
 i=0
 offset = 0.15
 
-min_voltage = 0.8
+min_voltage = 0.3
 max_voltage = 0.8
 
 min_freq = 0.02
