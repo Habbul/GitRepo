@@ -8,13 +8,13 @@ def averlines_plotting():
 	names = ['FREQ_0.02kHz', 'FREQ_0.12000000000000001kHz', 'FREQ_0.22000000000000003kHz', 'FREQ_0.32000000000000006kHz', 
 	 'FREQ_0.42000000000000004kHz', 'FREQ_0.52kHz']
 	# input_voltages = [0.3, 0.4, 0.5, 0.6, 0.7, 0.8]
-	names = ['DCYCLE_20%', 'DCYCLE_40%', 'DCYCLE_60%', 'DCYCLE_80%',]
+	names = ['DCYCLE_20%', 'DCYCLE_40%', 'DCYCLE_60%', 'DCYCLE_80%', 'DCYCLE_100%']
 
-	dcycles = [20, 40, 60, 80]
+	dcycles = [20, 40, 60, 80, 100]
 	kHzs = [0.02, 0.12, 0.22, 0.32, 0.42, 0.52]
 
 
-	for i in range(0,4):
+	for i in range(4,5):
 		s = names[i]
 		input_voltage = 0.8
 
@@ -28,12 +28,16 @@ def averlines_plotting():
 
 		n=0
 		j=-1
-		for sing_snap in data[0][0]:
+		for sing_snap in data[0][0][5:]:
 			j+=1
 			filtred_snap = geometry_filter(sing_snap, 200)
 			
 			ns_up = new_up_liner(filtred_snap, 1000)
 			ns_down = new_down_liner(filtred_snap, 1000)
+			if i==4:
+				ns_up = [middle(filtred_snap)]
+				ns_down = [0.15]
+
 			if (len(ns_down)!=0)&(len(ns_up)!=0):
 				amp_plot.append(middle(ns_up)-middle(ns_down))
 
@@ -58,7 +62,7 @@ def averlines_plotting():
 		# plt.yticks(yticks[0], yticks[1])
 
 		plt.plot(resistance_plot)
-	plt.ylim(0, 5)
+	# plt.ylim(0, 5)
 	plt.legend(tuple(['{}%'.format(i) for i in dcycles[0::]]))
 	plt.xlabel('Time, min')
 	plt.ylabel('Resistance, MΩ')

@@ -18,7 +18,7 @@ def averlines_plotting():
 
 	for i in range(0,6):
 		s = names[i]
-		input_voltage = input_voltages[i]
+		input_voltage = 0.8
 
 		with open ("{}.txt".format(s), "r") as f:
 			ret = f.readlines()
