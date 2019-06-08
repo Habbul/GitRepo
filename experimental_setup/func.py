@@ -198,7 +198,7 @@ gen.timeout = 5000
 osc = rm.open_resource("USB0::0x0699::0x03A6::C041256::INSTR")
 print(osc)
 osc.timeout = 5000
-set_osc_ch(l, osc, 1, 0.4, 0)
+set_osc_ch(l, osc, 1, 0.6, 0)
 # set_osc_hor(l, osc, t=10 ** -3)
 osc.encoding = "utf-8"
 osc.query("*IDN?")
@@ -212,7 +212,7 @@ step = 0.1
 i=0
 offset = 0.15
 
-min_voltage = 0.3
+min_voltage = 0.8
 max_voltage = 0.8
 
 min_freq = 0.02
