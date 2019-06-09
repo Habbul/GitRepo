@@ -246,7 +246,7 @@ for curr in voltages:
     uncoupling(l, gen, 5*60)
     # print(curr)
     gen_duty_cycle(l, gen, source=1, dutycycle=90, delay=0)
-    set_gen_form(l, gen, func="SQU", freq=0.1, amp=abs(curr - 0.15), offset=(curr - 0.15) / 2 + 0.15 - 0.008)
+    set_gen_form(l, gen, func="SQU", freq=0.3, amp=abs(curr - 0.15), offset=(curr - 0.15) / 2 + 0.15 - 0.008)
     start_gen(l, gen, source=1)
     print("GENERATING {}V".format(curr))
 
