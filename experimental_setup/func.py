@@ -234,7 +234,7 @@ gen_reset(gen)
 
 stop_gen(l, gen, source=1)
 
-voltages = [0.7, 0.8]
+voltages = [0.3, 0.5]
 
 set_gen_form(l, gen, func="NOIS", freq=1, amp=0, offset=0.15)
 start_gen(l, gen, source=1)
