@@ -212,7 +212,7 @@ step = 0.1
 i=0
 offset = 0.15
 
-min_voltage = -0.2
+min_voltage = 0.3
 max_voltage = 0.1
 
 min_freq = 0.02
@@ -234,16 +234,18 @@ gen_reset(gen)
 
 stop_gen(l, gen, source=1)
 
+voltages = [0.3, 0.5, 0.7, 0.8]
+
 set_gen_form(l, gen, func="NOIS", freq=1, amp=0, offset=0.15)
 start_gen(l, gen, source=1)
 print("Starting experiment cycle. Switch on the supply and plug in the memristor. Waiting 50sec...")
 time.sleep(50)
 curr = min_voltage
 step = 0.1
-while curr <= max_voltage:
-    coupling(l, gen, 5*60)
+for curr in voltages:
+    uncoupling(l, gen, 5*60)
     # print(curr)
-    gen_duty_cycle(l, gen, source=1, dutycycle=10, delay=0)
+    gen_duty_cycle(l, gen, source=1, dutycycle=90, delay=0)
     set_gen_form(l, gen, func="SQU", freq=0.1, amp=abs(curr - 0.15), offset=(curr - 0.15) / 2 + 0.15 - 0.008)
     start_gen(l, gen, source=1)
     print("GENERATING {}V".format(curr))
