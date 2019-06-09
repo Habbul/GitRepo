@@ -236,6 +236,7 @@ stop_gen(l, gen, source=1)
 
 voltages = [0.3, 0.5]
 dcycles = [20, 40, 70, 90]
+freqs = [0.02, 0.1, 0.2, 0.5]
 
 set_gen_form(l, gen, func="NOIS", freq=1, amp=0, offset=0.15)
 start_gen(l, gen, source=1)
@@ -243,15 +244,15 @@ print("Starting experiment cycle. Switch on the supply and plug in the memristor
 time.sleep(50)
 curr = min_voltage
 step = 0.1
-for curr in dcycles:
+for curr in freqs:
     uncoupling(l, gen, 5*60)
     # print(curr)
-    gen_duty_cycle(l, gen, source=1, dutycycle=curr, delay=0)
-    set_gen_form(l, gen, func="SQU", freq=0.1, amp=abs(0.8 - 0.15), offset=(0.8 - 0.15) / 2 + 0.15 - 0.008)
+    gen_duty_cycle(l, gen, source=1, dutycycle=80, delay=0)
+    set_gen_form(l, gen, func="SQU", freq=curr, amp=abs(0.8 - 0.15), offset=(0.8 - 0.15) / 2 + 0.15 - 0.008)
     start_gen(l, gen, source=1)
     print("GENERATING {}".format(curr))
 
-    capture_data(l, osc, w_time=5*60, snap_period=0.5, f_name="Dcycle_{}.txt".format(
+    capture_data(l, osc, w_time=5*60, snap_period=0.5, f_name="Freq_{}.txt".format(
         curr))
     # time.sleep(15)
     # start_gen(l, gen, source=1)
