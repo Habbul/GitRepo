@@ -245,10 +245,10 @@ time.sleep(50)
 curr = min_voltage
 step = 0.1
 for curr in freqs:
-    coupling(l, gen, 5*60)
+    uncoupling(l, gen, 5*60)
     # print(curr)
-    gen_duty_cycle(l, gen, source=1, dutycycle=10, delay=0)
-    set_gen_form(l, gen, func="SQU", freq=curr, amp=abs(-0.2 - 0.15), offset=(-0.2- 0.15) / 2 + 0.15 - 0.008)
+    gen_duty_cycle(l, gen, source=1, dutycycle=90, delay=0)
+    set_gen_form(l, gen, func="SQU", freq=curr, amp=abs(0.8 - 0.15), offset=(0.8- 0.15) / 2 + 0.15 - 0.008)
     start_gen(l, gen, source=1)
     print("GENERATING {}".format(curr))
 
