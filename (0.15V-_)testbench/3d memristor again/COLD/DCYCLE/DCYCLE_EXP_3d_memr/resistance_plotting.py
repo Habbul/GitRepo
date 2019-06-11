@@ -14,7 +14,7 @@ def averlines_plotting():
 	kHzs = [0.02, 0.12, 0.22, 0.32, 0.42, 0.52]
 
 
-	for i in range(4,5):
+	for i in range(0,4):
 		s = names[i]
 		input_voltage = 0.8
 
@@ -39,12 +39,12 @@ def averlines_plotting():
 				ns_down = [0.15]
 
 			if (len(ns_down)!=0)&(len(ns_up)!=0):
-				amp_plot.append(middle(ns_up)-middle(ns_down))
+				amp_plot.append(middle(ns_up))
 
 
 		filtred_amp_plot = filterr(amp_plot, 1)
 
-		resistance_plot = [1.2/(i/16000/(input_voltage-0.15)-1) for i in filtred_amp_plot]
+		resistance_plot = [1.2/(i/16000/(input_voltage)-1) for i in filtred_amp_plot]
 
 		# with open("resistance_plot_tof_rectangular.txt", "w") as f:
 		# 	f.write(s + "\n")

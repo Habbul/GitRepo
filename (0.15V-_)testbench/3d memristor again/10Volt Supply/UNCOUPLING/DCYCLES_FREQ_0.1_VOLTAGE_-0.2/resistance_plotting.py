@@ -64,8 +64,8 @@ def averlines_plotting():
 		# plt.yticks(yticks[0], yticks[1])
 
 		plt.plot(resistance_plot)
-	# plt.ylim(0, 5)
-	plt.legend(tuple(['{}%'.format(i) for i in dcycles[0::]]))
+	plt.ylim(0, 5)
+	plt.legend(tuple(['{}%'.format(100-i) for i in dcycles[0::]]))
 	plt.xlabel('Time, min')
 	plt.ylabel('Resistance, MΩ')
 	plt.show()
