@@ -5,20 +5,22 @@ from plotting_new import *
 # input_voltages = [0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8]
 
 def averlines_plotting():
-	# names = ['FREQ_0.02kHz', 'FREQ_0.12000000000000001kHz', 'FREQ_0.22000000000000003kHz', 'FREQ_0.32000000000000006kHz', 
-	#  'FREQ_0.42000000000000004kHz', 'FREQ_0.52kHz']
-	# input_voltages = [0.3, 0.4, 0.5, 0.6, 0.7, 0.8]
-	# names = ['DCYCLE_20%', 'DCYCLE_40%', 'DCYCLE_60%', 'DCYCLE_80%', 'DCYCLE_100%']
-	names = ['freq_0.02','freq_0.1', 'freq_0.2','freq_0.5',]
-	# names = ['dcycle_20', 'dcycle_40', 'dcycle_70', 'dcycle_90']
+	# names = ['Voltage_0.3V', 'Voltage_0.5V', 'Voltage_0.7V', 'Voltage_0.8V']
+	# names = ['DCYCLE_20%', 'DCYCLE_40%', 'DCYCLE_60%', 'DCYCLE_80%',]
+	# names = ['freq_0.02', 'freq_0.12000000000000001', 'freq_0.22000000000000003',
+	# 'freq_0.32000000000000006', 'freq_0.42000000000000004', 'freq_0.52']
+	# names = ['Dcycle_20', 'Dcycle_40', 'Dcycle_70', 'Dcycle_90',]
+	names = ['freq_0.02', 'freq_0.1', 'freq_0.2', 'freq_0.5']
 
-	dcycles = [20, 40, 70, 90]
-	kHzs = [0.02, 0.12, 0.22, 0.32, 0.42, 0.52]
-	freqs = [0.02, 0.1, 0.2, 0.5]
+
+	dcycles =  [20, 40, 70, 90]
+	input_voltages = [0.3, 0.5, 0.7, 0.8]
+	input_voltages_uncoupling = [-0.2, -0.1, 0.0, 0.1]
+	kHzs = [0.02, 0.1, 0.2, 0.5]
 
 	for i in range(0,4):
 		s = names[i]
-		input_voltage = -0.2
+		input_voltage = 0.8
 
 		with open ("{}.txt".format(s), "r") as f:
 			ret = f.readlines()
@@ -36,10 +38,6 @@ def averlines_plotting():
 			
 			ns_up = new_up_liner(filtred_snap, 100)
 			ns_down = new_down_liner(filtred_snap, 100)
-			if i==4:
-				ns_up = [middle(filtred_snap)]
-				ns_down = [0.15]
-
 			if (len(ns_down)!=0)&(len(ns_up)!=0):
 				amp_plot.append(middle(ns_up)-middle(ns_down))
 
@@ -64,8 +62,8 @@ def averlines_plotting():
 		# plt.yticks(yticks[0], yticks[1])
 
 		plt.plot(resistance_plot)
-	# plt.ylim(0, 5)
-	plt.legend(tuple(['{}kHz'.format(i) for i in freqs[0::]]))
+	plt.ylim(0, 5)
+	plt.legend(tuple(['{}kHz'.format(i) for i in kHzs[0::]]))
 	plt.xlabel('Time, min')
 	plt.ylabel('Resistance, MΩ')
 	plt.show()

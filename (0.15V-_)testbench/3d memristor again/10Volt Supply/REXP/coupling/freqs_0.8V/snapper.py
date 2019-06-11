@@ -1,12 +1,17 @@
 from plotting_new import *
 
 def snapper():
-	# names = ['FREQ_0.02kHz', 'FREQ_0.22000000000000003kHz', 'FREQ_0.32000000000000006kHz', 
-	# 'VOLTAGE_0.15-0.6V', 'FREQ_0.42000000000000004kHz', 'FREQ_0.52kHz']
-	# input_voltages = [0.3, 0.4, 0.5, 0.6, 0.7, 0.8]
-	names = ['freq_0.02', 'freq_0.1', 'freq_0.2', 'freq_0.5', ]
+	# names = ['Voltage_0.7V', 'Voltage_0.8V']
+	# names = ['Dcycle_20', 'Dcycle_40', 'Dcycle_70', 'Dcycle_90',]
+	names = ['freqs_0.02', 'freqs_0.1', 'freqs_0.2', 'freqs_0.5']
+	# 'freq_0.32000000000000006', 'freq_0.42000000000000004', 'freq_0.52']
 
-	for i in range(0,4):
+	dcycles =  [20, 40, 60, 80]
+	input_voltages = [0.7, 0.8]
+	input_voltages_uncoupling = [-0.2, -0.1, 0.0, 0.1]
+	kHzs = [0.02, 0.12, 0.22, 0.32, 0.42, 0.52]
+
+	for i in range(0,2):
 		s = names[i]
 		with open ("{}.txt".format(s), "r") as f:
 			ret = f.readlines()
@@ -22,20 +27,23 @@ def snapper():
 			j+=1
 			filtred_snap_upper = filterr(sing_snap, 10)	
 			filtred_snap_lower = filterr(sing_snap, 10)
-			filtred_snap = geometry_filter(sing_snap, 200)
+			filtred_snap = geometry_filter(sing_snap, 10)
 			######SNAP#############################################
 			# new_down_liner(filtred_snap, 300)
 			# plt.ylim(-15000,15000)
 			plt.plot(sing_snap, color = 'b')
-			ns_up = new_up_liner(filtred_snap, 1000)
-			ns_down = new_down_liner(filtred_snap, 1000)
-			if i==4:
-				ns_up = [middle(filtred_snap)]
-				ns_down = [middle(filtred_snap)]
+			heavy_p=filtred_snap[0]
+			light_p=filtred_snap[0]
+			for i in filtred_snap:
+				if i>light_p: light_p=i
+				if i<heavy_p: heavy_p=i
+
+			ns_up = [light_p]
+			ns_down = [heavy_p]
 			# plt.plot(filtred_snap, color='b')
 			plt.clf()
 			plt.subplot(1,2,1)
-			plt.ylim(-30000, 15000)
+			plt.ylim(-30000, 30000)
 			plt.plot(filtred_snap)
 			# for t in ns_up:
 			# 	plt.plot([t for l in filtred_snap])
@@ -46,7 +54,7 @@ def snapper():
 			if len(ns_down)!=0:
 				plt.plot([middle(ns_down) for i in sing_snap], color = 'r')
 			plt.subplot(1,2,2)
-			plt.ylim(-30000, 15000)
+			plt.ylim(-30000, 30000)
 			plt.plot(sing_snap)
 			# for t in ns_up:
 			# 	plt.plot([t for l in sing_snap])
@@ -57,7 +65,7 @@ def snapper():
 			if len(ns_down)!=0:
 				plt.plot([middle(ns_down) for i in sing_snap])
 			# plt.show()
-			plt.savefig('snaps/snap{}.png'.format(j+1))
+			plt.savefig('snaps/snap{}.png'.format(j+1))			
 			plt.clf()
 			print('snap{}'.format(j+1))
 			########################################################

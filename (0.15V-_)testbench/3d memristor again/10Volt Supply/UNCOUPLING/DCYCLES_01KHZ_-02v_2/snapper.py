@@ -6,6 +6,9 @@ def snapper():
 	# input_voltages = [0.3, 0.4, 0.5, 0.6, 0.7, 0.8]
 	names = ['freq_0.02', 'freq_0.1', 'freq_0.2', 'freq_0.5', ]
 
+	dcycles = [10, 30, 60, 80]
+	kHzs = [0.02, 0.1, 0.2, 0.5]
+
 	for i in range(0,4):
 		s = names[i]
 		with open ("{}.txt".format(s), "r") as f:
@@ -27,8 +30,8 @@ def snapper():
 			# new_down_liner(filtred_snap, 300)
 			# plt.ylim(-15000,15000)
 			plt.plot(sing_snap, color = 'b')
-			ns_up = new_up_liner(filtred_snap, 1000)
-			ns_down = new_down_liner(filtred_snap, 1000)
+			ns_up = new_up_liner(filtred_snap, 100)
+			ns_down = new_down_liner(filtred_snap, 100)
 			if i==4:
 				ns_up = [middle(filtred_snap)]
 				ns_down = [middle(filtred_snap)]

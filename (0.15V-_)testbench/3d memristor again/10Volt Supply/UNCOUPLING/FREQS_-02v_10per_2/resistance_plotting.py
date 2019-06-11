@@ -9,8 +9,9 @@ def averlines_plotting():
 	#  'FREQ_0.42000000000000004kHz', 'FREQ_0.52kHz']
 	# input_voltages = [0.3, 0.4, 0.5, 0.6, 0.7, 0.8]
 	# names = ['DCYCLE_20%', 'DCYCLE_40%', 'DCYCLE_60%', 'DCYCLE_80%', 'DCYCLE_100%']
-	names = ['freq_0.02','freq_0.1', 'freq_0.2','freq_0.5',]
-	# names = ['dcycle_20', 'dcycle_40', 'dcycle_70', 'dcycle_90']
+	# names = ['Freq_0.02', 'Freq_0.1', 'Freq_0.2', 'Freq_0.5',]
+	# names = ['dcycle_0.02', 'dcycle_0.1', 'dcycle_0.2', 'dcycle_0.5',]
+	names = ['freq_0.02', 'freq_0.1', 'freq_0.2', 'freq_0.5',]
 
 	dcycles = [20, 40, 70, 90]
 	kHzs = [0.02, 0.12, 0.22, 0.32, 0.42, 0.52]
