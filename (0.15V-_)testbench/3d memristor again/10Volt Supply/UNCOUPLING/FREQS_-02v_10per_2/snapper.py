@@ -4,7 +4,7 @@ def snapper():
 	# names = ['FREQ_0.02kHz', 'FREQ_0.22000000000000003kHz', 'FREQ_0.32000000000000006kHz', 
 	# 'VOLTAGE_0.15-0.6V', 'FREQ_0.42000000000000004kHz', 'FREQ_0.52kHz']
 	# input_voltages = [0.3, 0.4, 0.5, 0.6, 0.7, 0.8]
-	names = ['freq_0.02', 'freq_0.1', 'freq_0.2', 'freq_0.5', ]
+	names = ['freq_0.02', 'freq_0.1', 'freq_0.2', 'freq_0.5',]
 
 	for i in range(0,4):
 		s = names[i]

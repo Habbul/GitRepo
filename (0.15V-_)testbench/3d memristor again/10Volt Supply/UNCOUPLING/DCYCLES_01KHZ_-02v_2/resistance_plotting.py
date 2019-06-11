@@ -9,10 +9,10 @@ def averlines_plotting():
 	#  'FREQ_0.42000000000000004kHz', 'FREQ_0.52kHz']
 	# input_voltages = [0.3, 0.4, 0.5, 0.6, 0.7, 0.8]
 	# names = ['DCYCLE_20%', 'DCYCLE_40%', 'DCYCLE_60%', 'DCYCLE_80%', 'DCYCLE_100%']
-	names = ['freq_0.02','freq_0.1', 'freq_0.2','freq_0.5',]
-	# names = ['dcycle_20', 'dcycle_40', 'dcycle_70', 'dcycle_90']
+	# names = ['Freq_0.02', 'Freq_0.1', 'Freq_0.2', 'Freq_0.5',]
+	names = ['dcycle_10', 'dcycle_30', 'dcycle_60', 'dcycle_80']
 
-	dcycles = [20, 40, 70, 90]
+	dcycles = [10, 30, 60, 80]
 	kHzs = [0.02, 0.12, 0.22, 0.32, 0.42, 0.52]
 	freqs = [0.02, 0.1, 0.2, 0.5]
 
@@ -64,8 +64,8 @@ def averlines_plotting():
 		# plt.yticks(yticks[0], yticks[1])
 
 		plt.plot(resistance_plot)
-	# plt.ylim(0, 5)
-	plt.legend(tuple(['{}kHz'.format(i) for i in freqs[0::]]))
+	plt.ylim(0, 5)
+	plt.legend(tuple(['{}%'.format(100-i) for i in dcycles[0::]]))
 	plt.xlabel('Time, min')
 	plt.ylabel('Resistance, MΩ')
 	plt.show()
