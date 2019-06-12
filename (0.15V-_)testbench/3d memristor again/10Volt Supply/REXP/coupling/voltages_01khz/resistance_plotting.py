@@ -10,7 +10,8 @@ def averlines_plotting():
 	# names = ['freq_0.02', 'freq_0.12000000000000001', 'freq_0.22000000000000003',
 	# 'freq_0.32000000000000006', 'freq_0.42000000000000004', 'freq_0.52']
 	# names = ['Dcycle_20', 'Dcycle_40', 'Dcycle_70', 'Dcycle_90',]
-	names = ['freqs_0.02', 'freqs_0.1', 'freqs_0.2', 'freqs_0.5']
+	# names = ['freqs_0.02', 'freqs_0.1', 'freqs_0.2', 'freqs_0.5']
+	names = ['voltage_0.3', 'voltage_0.5', 'voltage_0.7', 'voltage_0.8',]
 
 
 	dcycles =  [20, 40, 70, 90]
@@ -20,7 +21,7 @@ def averlines_plotting():
 
 	for i in range(0,4):
 		s = names[i]
-		input_voltage = 0.8
+		input_voltage = input_voltages[i]
 		with open ("{}.txt".format(s), "r") as f:
 			ret = f.readlines()
 		print(s)
@@ -31,7 +32,7 @@ def averlines_plotting():
 
 		n=0
 		j=-1
-		for sing_snap in data[0][0][5:]:
+		for sing_snap in data[0][0][6:]:
 			j+=1
 			filtred_snap = geometry_filter(sing_snap, 200)
 			heavy_p=filtred_snap[0]
@@ -68,7 +69,7 @@ def averlines_plotting():
 
 		plt.plot(resistance_plot)
 	plt.ylim(0, 5)
-	plt.legend(tuple(['{}kHz'.format(i) for i in kHzs[0::]]))
+	plt.legend(tuple(['{}V'.format(i) for i in input_voltages[0::]]))
 	plt.xlabel('Time, min')
 	plt.ylabel('Resistance, MΩ')
 	plt.show()
