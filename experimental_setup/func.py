@@ -235,7 +235,7 @@ gen_reset(gen)
 stop_gen(l, gen, source=1)
 
 voltages = [-0.2, 0]
-dcycles = [90, 70, 40, 20]
+dcycles = [80, 60, 30, 10]
 freqs = [0.02, 0.1, 0.2, 0.5]
 osc_hors = [10*10**-3, 2.5*10**-3, 1*10**-3, 0.5*10**-3]
 
@@ -246,17 +246,17 @@ time.sleep(50)
 curr = min_voltage
 step = 0.1
 counter = 0
-for curr in freqs:
-    set_osc_hor(l, osc, osc_hors[counter])
+for curr in dcycles:
+    # set_osc_hor(l, osc, osc_hors[counter])
     counter+=1
     coupling(l, gen, 5*60)
     # print(curr)
-    gen_duty_cycle(l, gen, source=1, dutycycle=10, delay=0)
-    set_gen_form(l, gen, func="REXP", freq=curr, amp=abs(-0.2-0.15), offset=(-0.2- 0.15) / 2 + 0.15 - 0.008)
+    gen_duty_cycle(l, gen, source=1, dutycycle=curr, delay=0)
+    set_gen_form(l, gen, func="SQU", freq=0.1, amp=abs(-0.2-0.15), offset=(-0.2- 0.15) / 2 + 0.15 - 0.008)
     start_gen(l, gen, source=1)
     print("GENERATING {}".format(curr))
 
-    capture_data(l, osc, w_time=5*60, snap_period=0.5, f_name="freq_{}.txt".format(
+    capture_data(l, osc, w_time=5*60, snap_period=0.5, f_name="dcycle_{}.txt".format(
         curr))
     # time.sleep(15)
     # start_gen(l, gen, source=1)
